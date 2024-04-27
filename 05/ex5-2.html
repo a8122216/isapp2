@@ -11,9 +11,27 @@
     <script>
         osql.requireLogin();//すべてのページに入れる．google認証をして，osql.connect()や，osql.getMe()を使えるようにしてくれる．
 
-        async function button1Pressed() {
+        function button1Pressed() {
+            doSelect();
+        }
+
+        async function button2Pressed() {
             await doInsert();
             document.getElementById('tf2').value = ""
+        }
+
+        async function doSelect() {
+            var sql = 'select * from Tweets order by time desc limit 20';
+            var objects = await osql.connect(sql);
+            console.log(objects);
+            var html = '';
+            html = html + '<ul>';
+            for (var i = 0; i < objects.length; i++) {
+                var object = objects[i];
+                html = html + '<li>' + object.name + ',' + object.tweet + ',' + object.time + '</li>';
+            }
+            html = html + '</ul>';
+            document.getElementById('result').innerHTML = html;
         }
 
         async function doInsert() {
@@ -36,8 +54,10 @@
     名前:<input id="tf1" value="名無し" type="textfield">
     <br>
     tweet:<input id="tf2" type="textfield">
-    <button onclick="button1Pressed()">tweet</button>
+
+    <button onclick="button2Pressed()">tweet</button>
     <br>
+    <button onclick="button1Pressed()">X</button>
     <p id="result"></p>
 </body>
 
