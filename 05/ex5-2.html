@@ -20,7 +20,16 @@
             document.getElementById('tf2').value = ""
         }
 
-        async function doSelect() {
+        osql.requireLogin();//すべてのページに入れる．google認証をして，osql.connect()や，osql.getMe()を使えるようにしてくれる．
+
+        var x;
+
+        $().ready(function () {
+            x = 0;
+            setInterval(doCount, 1000);
+        });
+
+        async function fetchData() {
             var sql = 'select * from Tweets order by time desc limit 20';
             var objects = await osql.connect(sql);
             console.log(objects);
@@ -31,8 +40,21 @@
                 html = html + '<li>' + object.name + ',' + object.tweet + ',' + object.time + '</li>';
             }
             html = html + '</ul>';
-            document.getElementById('result').innerHTML = html;
+            $('#result').html(html); // jQueryの方法でHTMLを設定
         }
+
+        $(function(){
+            fetchData(); // 初回のデータ取得
+
+            // 2秒ごとにfetchData関数を呼び出す
+            setInterval(fetchData, 2000);
+        });
+
+
+        
+
+
+        
 
         async function doInsert() {
             var userid = document.getElementById('tf1').value;
