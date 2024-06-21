@@ -2,6 +2,8 @@
 
 <html>
 
+
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -20,7 +22,7 @@
             document.getElementById('welcome').innerHTML = 'ようこそ' + name + 'さん';
             var id = sessionStorage.getItem('userid');
             var updateLink = document.getElementById('updateLink');
-            updateLink.href += id;
+            updateLink.href += id; //innerHTMLでリンク創る
         }
 
     </script>
